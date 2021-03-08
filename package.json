@@ -1,6 +1,6 @@
 {
   "name": "material_multi_select_list",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "private" : false,
   "description": "> React multi select item from a (text , value) list",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KaterinaLupacheva/react-progress-bar.git"
+    "url": "https://github.com/tmbax0098/material_multi_select_list.git"
   },
   "keywords": [
     "react",
@@ -24,9 +24,9 @@
   "author": "KaterinaLupacheva",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/KaterinaLupacheva/react-progress-bar/issues"
+    "url": "https://github.com/tmbax0098/material_multi_select_list/issues"
   },
-  "homepage": "https://katerinalupacheva.github.io/react-progress-bar/",
+  "homepage": "https://github.com/tmbax0098/material_multi_select_list",
   "peerDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"

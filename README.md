@@ -1,7 +1,7 @@
-#NAME
+# NAME
 > material_multi_select_list
 
-#ABOUT
+# ABOUT
 
 > This package allow user to check many item from a (text , value) list
 
