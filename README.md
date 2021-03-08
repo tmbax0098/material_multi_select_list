@@ -1,54 +1,45 @@
-# @ramonak/react-progress-bar
+#NAME
+> material_multi_select_list
 
-> Progress Bar React Component (build with Typescript)
+#ABOUT
 
-[![NPM](https://img.shields.io/npm/v/@ramonak/react-progress-bar.svg)](https://www.npmjs.com/package/@ramonak/react-progress-bar) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)![npm bundle size](https://img.shields.io/bundlephobia/min/@ramonak/react-progress-bar)![GitHub](https://img.shields.io/github/license/katerinalupacheva/react-progress-bar)![npm](https://img.shields.io/npm/dw/@ramonak/react-progress-bar)
+> This package allow user to check many item from a (text , value) list
 
----
+# EXAMPLE
+_________________________________________
 
-![demo](https://i.ibb.co/Fgh0BsD/animated-demo.gif)
 
----
+> const list = [
+{text: "item 1", value: 1},
+{text: "item 2", value: 2},
+{text: "item 3", value: 3},
+{text: "item 4", value: 4},
+{text: "item 5", value: 5},
+{text: "item 6", value: 6},
+{text: "item 7", value: 7},
+{text: "item 8", value: 8},
+{text: "item 9", value: 9},
+];
 
-[Playground / Code Generator](https://katerinalupacheva.github.io/react-progress-bar/)
 
----
 
-## Install
 
-```bash
-npm install --save @ramonak/react-progress-bar
-```
+    const [selectedList, setSelectedList] = useState([]);
 
-## Usage
+    return (
+        <Box p={5}>
+            <TransferList
+                onChange={setSelectedList}
+                sourceList={list}
+                selectedList={selectedList}
+                title={"Multi Select List"}
+                pageSize={5}
+                chipIcon={null}
+                leftIcon={"<"}
+                rightIcon={">"}
+                searchIcon={"Search"}
+                menuIcon={"Menu"}
+                searchResetIcon={"Reset"}/>
+        </Box>
+    );
 
-```jsx
-import React from "react";
-
-import ProgressBar from "@ramonak/react-progress-bar";
-
-const Example = () => {
-  return <ProgressBar completed={60} />;
-};
-```
-
-## Props
-
-| Name                   | Type                                           | Default   | Description                                                                                                                 |
-| ---------------------- | ---------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `completed` (required) | `Number between 0 and` <br/>` 100 or string.`  |           | Percentage of completed progress bar value. <br/> If string, it will be bar label <br/> and the bar will be fully completed |
-| `bgcolor`              | `string`                                       | `#6a1b9a` | Color of the completed bar                                                                                                  |
-| `height`               | `string`                                       | `20px`    | Height of the bar                                                                                                           |
-| `width`                | `string`                                       | `100%`    | Width of the bar                                                                                                            |
-| `margin`               | `string`                                       |           | Margin                                                                                                                      |
-| `padding`              | `string`                                       |           | Padding                                                                                                                     |
-| `borderRadius`         | `string`                                       | `50px`    | Border radius of the bar                                                                                                    |
-| `baseBgColor`          | `string`                                       | `#e0e0de` | Color of the "non-completed" bar                                                                                            |
-| `labelAlignment`       | `string:` <br/> `left, center, right, outside` | `right`   | Position of the label inside the completed bar or outside bar                                                               |
-| `labelColor`           | `string`                                       | `#fff`    | Color of the label text                                                                                                     |
-| `labelSize`            | `string`                                       | `15px`    | Font-size of the label text                                                                                                 |
-| `isLabelVisible`       | `boolean`                                      | `true`    | Visibility of the label                                                                                                     |
-
-## License
-
-MIT © [KaterinaLupacheva](https://github.com/KaterinaLupacheva)
