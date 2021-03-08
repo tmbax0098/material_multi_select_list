@@ -1,6 +1,7 @@
 {
   "name": "react_multi_select_list",
   "version": "0.1.4",
+  "private" : false,
   "description": "> React multi select item from a (text , value) list",
   "main": "dist/index.js",
   "directories": {
