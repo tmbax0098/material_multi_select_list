@@ -19,7 +19,7 @@ export function TransferListHeader(props: Props) {
             flexDirection={"row"}
             alignItems={"center"}
             p={1}>
-            <Box flexGrow={1}>
+            <Box flexGrow={1} justifyContent={"flex-start"}>
                 <Typography variant={'body1'}> {props.title} </Typography>
             </Box>
             <Box p={1}>
