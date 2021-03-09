@@ -1,5 +1,6 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
+import * as PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -15,9 +16,9 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
-import ConditionRender from "./ConditionRender";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {TransferListHeader} from "./TransferListHeader";
+import ConditionRender from "./ConditionRender";
+import TransferListHeader from "./TransferListHeader";
 import {Item} from "./Item";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,13 +46,13 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface IItem {
   text: string,
   value: any
-};
+}
 
 enum EnumMode {
   all,
   onlySelected,
   onlyNotSelected
-};
+}
 const getFilter = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode: EnumMode = EnumMode.all, pageSize: number = 5, search: string = "") => {
 
   if (mode === EnumMode.onlyNotSelected) {
@@ -81,11 +82,12 @@ const getPage = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode:
   return arr.filter(item => item.text.search(search) !== -1).slice(startIndex, endIndex);
 };
 
-type Props = {
+export type TransferListProps = {
   onChange: any,
   sourceList: Array<IItem>,
   selectedList: Array<IItem>,
   title: string,
+  chipText: string
   pageSize: number,
   chipIcon: any,
   searchIcon: any,
@@ -94,7 +96,8 @@ type Props = {
   leftIcon: any,
   searchResetIcon: any
 };
-export default function TransferList(props: Props) {
+
+export default function TransferList(props: TransferListProps) {
 
   const classes = useStyles();
 
@@ -186,6 +189,7 @@ export default function TransferList(props: Props) {
             searchResetIcon={props.searchResetIcon}
             count={state.selectedList.length}
             title={props.title}
+            chipText={props.chipText}
             active={state.activeSearch}
             toggleActive={toggleActiveSearch}
             toggleMenu={toggleMenu}
@@ -250,3 +254,31 @@ export default function TransferList(props: Props) {
   );
 }
 
+TransferList.propTypes = {
+  onChange: PropTypes.func,
+  sourceList: PropTypes.array,
+  selectedList: PropTypes.array,
+  title: PropTypes.string,
+  chipText: PropTypes.string,
+  pageSize: PropTypes.number,
+  chipIcon: PropTypes.any,
+  searchIcon: PropTypes.any,
+  menuIcon: PropTypes.any,
+  rightIcon: PropTypes.any,
+  leftIcon: PropTypes.any,
+  searchResetIcon: PropTypes.any
+};
+TransferList.defaultProps = {
+  onChange: () => [],
+  sourceList: [],
+  selectedList: [],
+  title: "Title",
+  chipText: "Selected items",
+  pageSize: 5,
+  chipIcon: null,
+  searchIcon: "S",
+  menuIcon: "M",
+  rightIcon: ">",
+  leftIcon: "<",
+  searchResetIcon: "X"
+}

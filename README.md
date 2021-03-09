@@ -8,9 +8,9 @@
 _________________________________________
 
 
-    const list = [{text: "item 1", value: 1}, {text: "item 2", value: 2}];
+    const list = [{text: "item 1", value: 1}, {text: "item 2", value: 2}, {text: "item 3", value: 3}];
 
-    const [selectedList, setSelectedList] = useState([]);
+    const [selectedList, setSelectedList] = useState([1 , 3]);
 
     return (
         <Box p={5}>
@@ -19,6 +19,7 @@ _________________________________________
                 sourceList={list}
                 selectedList={selectedList}
                 title={"Multi Select List"}
+                chipText={"Selected items"}
                 pageSize={5}
                 chipIcon={null}
                 leftIcon={"<"}
@@ -31,37 +32,31 @@ _________________________________________
 
 
 # Default value of properties
-> onChange  ==> null
->
-> sourceList  ==> [ ]
->
-> selectedList  ==> [ ]
->
-> title  ==> ""
->
-> pageSize  ==> 5
->
-> chipIcon  ==> null
->
-> leftIcon  ==> null
->
-> rightIcon  ==> null
->
-> searchIcon  ==> null
->
-> menuIcon  ==> null
->
-> searchResetIcon  ==> null
+_____________________________________________________
+    TransferList.defaultProps = {
+    onChange: ()=>[],
+    sourceList: [],
+    selectedList: [],
+    title: "Title",
+    chipText:"Selected items",
+    pageSize: 5,
+    chipIcon: null,
+    searchIcon: "S",
+    menuIcon: "M",
+    rightIcon: ">",
+    leftIcon: "<",
+    searchResetIcon: "X"
+    }
 
-#Properties Example
+# Properties Example
 
-> You can add the following component as a value to your property
+> You can add the following component as a value to icons property
 >
 > `searchIcon = { <FontAwesomeIcon icon={faSearch}/> }`
 >
 
 
-#About onChange
+# About [onChange]
 > To use it, you must add its value as follows
 >
-> `onChange={newSelectList =>{}}`
+> `onChange={newSelectedItemValueList =>{}}`

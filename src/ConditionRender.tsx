@@ -8,10 +8,10 @@ export type ConditionRenderProps = {
 };
 
 const ConditionRender: React.FC<ConditionRenderProps> = ({
-  condition,
-  trueCondition,
-  falseCondition,
-}) => {
+                                                           condition,
+                                                           trueCondition,
+                                                           falseCondition,
+                                                         }) => {
   return Boolean(condition) ? trueCondition : falseCondition;
 };
 
