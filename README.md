@@ -8,20 +8,7 @@
 _________________________________________
 
 
-> const list = [
-{text: "item 1", value: 1},
-{text: "item 2", value: 2},
-{text: "item 3", value: 3},
-{text: "item 4", value: 4},
-{text: "item 5", value: 5},
-{text: "item 6", value: 6},
-{text: "item 7", value: 7},
-{text: "item 8", value: 8},
-{text: "item 9", value: 9},
-];
-
-
-
+    const list = [{text: "item 1", value: 1}, {text: "item 2", value: 2}];
 
     const [selectedList, setSelectedList] = useState([]);
 
@@ -70,11 +57,11 @@ _________________________________________
 
 > You can add the following component as a value to your property
 >
-> searchIcon = { < FontAwesomeIcon icon={faSearch} /> }
+> `searchIcon = { <FontAwesomeIcon icon={faSearch}/> }`
 >
 
 
 #About onChange
 > To use it, you must add its value as follows
 >
-> onChange={ newSelectList =>{} }
+> `onChange={newSelectList =>{}}`
