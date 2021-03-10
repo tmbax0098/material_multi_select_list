@@ -172,11 +172,11 @@ export default function TransferList(props: TransferListProps) {
         open={Boolean(state.anchor)}
         onClose={() => setState({...state, anchor: null})}>
         <MenuItem selected={state.mode === EnumMode.all}
-                  onClick={() => setMode(EnumMode.all)}>All</MenuItem>
+                  onClick={() => setMode(EnumMode.all)}>Show all</MenuItem>
         <MenuItem selected={state.mode === EnumMode.onlySelected}
-                  onClick={() => setMode(EnumMode.onlySelected)}>Only selected</MenuItem>
+                  onClick={() => setMode(EnumMode.onlySelected)}>Show only selected</MenuItem>
         <MenuItem selected={state.mode === EnumMode.onlyNotSelected}
-                  onClick={() => setMode(EnumMode.onlyNotSelected)}>Only not selected</MenuItem>
+                  onClick={() => setMode(EnumMode.onlyNotSelected)}>Show only unselected</MenuItem>
       </Menu>
       <CardHeader
         className={classes.cardHeader}
