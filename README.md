@@ -26,6 +26,8 @@ _________________________________________
                 rightIcon={">"}
                 searchIcon={"Search"}
                 menuIcon={"Menu"}
+                maximumSelectableItem={2}
+                readOnly={false}
                 searchResetIcon={"Reset"}/>
         </Box>
     );
@@ -33,19 +35,38 @@ _________________________________________
 
 # Default value of properties
 _____________________________________________________
+    TransferList.propTypes = {
+    onChange: PropTypes.func,
+    sourceList: PropTypes.array,
+    selectedList: PropTypes.array,
+    title: PropTypes.string,
+    chipText: PropTypes.string,
+    pageSize: PropTypes.number,
+    chipIcon: PropTypes.any,
+    searchIcon: PropTypes.any,
+    menuIcon: PropTypes.any,
+    rightIcon: PropTypes.any,
+    leftIcon: PropTypes.any,
+    searchResetIcon: PropTypes.any,
+    maximumSelectableItem: PropTypes.number,
+    readyOnly : PropTypes.bool
+    };
+
     TransferList.defaultProps = {
-    onChange: ()=>[],
+    onChange: () => [],
     sourceList: [],
     selectedList: [],
     title: "Title",
-    chipText:"Selected items",
+    chipText: "Selected items",
     pageSize: 5,
     chipIcon: null,
     searchIcon: "S",
     menuIcon: "M",
     rightIcon: ">",
     leftIcon: "<",
-    searchResetIcon: "X"
+    searchResetIcon: "X",
+    maximumSelectableItem: -1,
+    readyOnly : false
     }
 
 # Properties Example

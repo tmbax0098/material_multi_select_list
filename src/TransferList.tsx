@@ -53,6 +53,7 @@ enum EnumMode {
   onlySelected,
   onlyNotSelected
 }
+
 const getFilter = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode: EnumMode = EnumMode.all, pageSize: number = 5, search: string = "") => {
 
   if (mode === EnumMode.onlyNotSelected) {
@@ -94,7 +95,9 @@ export type TransferListProps = {
   menuIcon: any,
   rightIcon: any,
   leftIcon: any,
-  searchResetIcon: any
+  searchResetIcon: any,
+  maximumSelectableItem: number,
+  readyOnly : boolean
 };
 
 export default function TransferList(props: TransferListProps) {
@@ -127,21 +130,25 @@ export default function TransferList(props: TransferListProps) {
     }
   }
   const onClick = (item: IItem) => {
+    if(props.readyOnly) return;
     if (state.selectedList.indexOf(item.value) !== -1) {
       state.selectedList.splice(state.selectedList.indexOf(item.value), 1);
     } else {
-      state.selectedList.push(item.value);
+      if (props.maximumSelectableItem < 0 || (props.maximumSelectableItem > -1 && state.selectedList.length < props.maximumSelectableItem)) {
+        state.selectedList.push(item.value);
+      }
     }
     setState({...state});
   }
   const cleanAll = () => {
-
+    if(props.readyOnly) return;
     state.page = 0;
     state.mode = EnumMode.onlyNotSelected;
     state.selectedList = [];
     setState({...state});
   }
   const selectAll = () => {
+    if(props.readyOnly) return;
     state.selectedList = state.list.map(item => item.value);
     state.page = 0;
     state.mode = EnumMode.onlySelected;
@@ -151,7 +158,7 @@ export default function TransferList(props: TransferListProps) {
   const toggleMenu = e => setState({...state, anchor: e.target})
 
   useEffect(() => {
-    if (typeof props.onChange === "function") {
+    if (typeof props.onChange === "function" && !props.readyOnly) {
       props.onChange(state.selectedList)
     }
   }, [props, state]);
@@ -243,9 +250,21 @@ export default function TransferList(props: TransferListProps) {
             <Button onClick={cleanAll}>
               <Typography variant={"caption"}>Clean all</Typography>
             </Button>
-            <Button onClick={selectAll}>
-              <Typography variant={"caption"}>Select all</Typography>
-            </Button>
+
+            <ConditionRender
+              condition={props.maximumSelectableItem < 0}
+              trueCondition={
+                <Button onClick={selectAll}>
+                  <Typography variant={"caption"}>Select all</Typography>
+                </Button>
+              }
+              falseCondition={
+                <Typography>
+                  Maximum selectable item : {props.maximumSelectableItem}
+                </Typography>
+              }/>
+
+
           </ButtonGroup>
         </Box>
       </CardActions>
@@ -266,7 +285,9 @@ TransferList.propTypes = {
   menuIcon: PropTypes.any,
   rightIcon: PropTypes.any,
   leftIcon: PropTypes.any,
-  searchResetIcon: PropTypes.any
+  searchResetIcon: PropTypes.any,
+  maximumSelectableItem: PropTypes.number,
+  readyOnly : PropTypes.bool
 };
 TransferList.defaultProps = {
   onChange: () => [],
@@ -280,5 +301,7 @@ TransferList.defaultProps = {
   menuIcon: "M",
   rightIcon: ">",
   leftIcon: "<",
-  searchResetIcon: "X"
+  searchResetIcon: "X",
+  maximumSelectableItem: -1,
+  readyOnly : false
 }
