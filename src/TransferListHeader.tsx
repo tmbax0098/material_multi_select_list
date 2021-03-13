@@ -36,7 +36,7 @@ const TransferListHeader: React.FC<TransferListHeaderProps> = ({
       pl={1}
       pr={1}>
       <Box flexGrow={1}>
-        <Typography variant={'body1'} align={"left"}> {title} </Typography>
+        <Typography variant={'body1'} align={"left"} style={{fontWeight : "bold"}}> {title} </Typography>
       </Box>
       <Box>
         <Chip
