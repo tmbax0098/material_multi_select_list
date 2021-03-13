@@ -33,11 +33,12 @@ const TransferListHeader: React.FC<TransferListHeaderProps> = ({
       display={"flex"}
       flexDirection={"row"}
       alignItems={"center"}
-      p={1}>
+      pl={1}
+      pr={1}>
       <Box flexGrow={1}>
         <Typography variant={'body1'} align={"left"}> {title} </Typography>
       </Box>
-      <Box p={1}>
+      <Box>
         <Chip
           icon={chipIcon}
           label={
@@ -62,14 +63,14 @@ const TransferListHeader: React.FC<TransferListHeaderProps> = ({
       </Box>
       <Box>
         <IconButton
-          size={"small"}
+          size={"medium"}
           onClick={toggleActive}>
           {active ? searchResetIcon : searchIcon}
         </IconButton>
       </Box>
       <Box>
         <IconButton
-          size={"small"}
+          size={"medium"}
           onClick={toggleMenu}>
           {menuIcon}
         </IconButton>

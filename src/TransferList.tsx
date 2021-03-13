@@ -251,15 +251,9 @@ export default function TransferList(props: TransferListProps) {
               <Typography variant={"caption"}>Clean all</Typography>
             </Button>
 
-            {props.maximumSelectableItem < 0 ?
-              <Button onClick={selectAll}>
-                <Typography variant={"caption"}>Select all</Typography>
-              </Button> :
-              <Typography>
-                Maximum selectable item : {props.maximumSelectableItem}
-              </Typography>
-            }
-
+            <Button disabled={props.maximumSelectableItem > 0} onClick={selectAll}>
+              <Typography variant={"caption"}>{props.maximumSelectableItem < 0? "Select all" : "Maximum selectable item : " +props.maximumSelectableItem}</Typography>
+            </Button>
 
           </ButtonGroup>
         </Box>
