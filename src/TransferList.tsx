@@ -97,7 +97,7 @@ export type TransferListProps = {
   leftIcon: any,
   searchResetIcon: any,
   maximumSelectableItem: number,
-  readyOnly : boolean
+  readyOnly: boolean
 };
 
 export default function TransferList(props: TransferListProps) {
@@ -130,7 +130,7 @@ export default function TransferList(props: TransferListProps) {
     }
   }
   const onClick = (item: IItem) => {
-    if(props.readyOnly) return;
+    if (props.readyOnly) return;
     if (state.selectedList.indexOf(item.value) !== -1) {
       state.selectedList.splice(state.selectedList.indexOf(item.value), 1);
     } else {
@@ -141,14 +141,14 @@ export default function TransferList(props: TransferListProps) {
     setState({...state});
   }
   const cleanAll = () => {
-    if(props.readyOnly) return;
+    if (props.readyOnly) return;
     state.page = 0;
     state.mode = EnumMode.onlyNotSelected;
     state.selectedList = [];
     setState({...state});
   }
   const selectAll = () => {
-    if(props.readyOnly) return;
+    if (props.readyOnly) return;
     state.selectedList = state.list.map(item => item.value);
     state.page = 0;
     state.mode = EnumMode.onlySelected;
@@ -158,7 +158,7 @@ export default function TransferList(props: TransferListProps) {
   const toggleMenu = e => setState({...state, anchor: e.target})
 
   useEffect(() => {
-    if (typeof props.onChange === "function" && !props.readyOnly) {
+    if (typeof props.onChange === "function" && !props.readyOnly && JSON.stringify(state.selectedList) !== JSON.stringify(props.selectedList)) {
       props.onChange(state.selectedList)
     }
   }, [props, state]);
@@ -287,7 +287,7 @@ TransferList.propTypes = {
   leftIcon: PropTypes.any,
   searchResetIcon: PropTypes.any,
   maximumSelectableItem: PropTypes.number,
-  readyOnly : PropTypes.bool
+  readyOnly: PropTypes.bool
 };
 TransferList.defaultProps = {
   onChange: () => [],
@@ -303,5 +303,5 @@ TransferList.defaultProps = {
   leftIcon: "<",
   searchResetIcon: "X",
   maximumSelectableItem: -1,
-  readyOnly : false
+  readyOnly: false
 }
