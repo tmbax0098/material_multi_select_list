@@ -84,6 +84,10 @@ const getPage = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode:
 };
 
 export type TransferListProps = {
+  maximumSelectableItemText : string,
+  buttonCleanAllText : string,
+  buttonSelectAllText : string,
+  searchBoxPlaceholder : string,
   menuShowAllText : string,
   menuShowSelectedText : string,
   menuShowUnselectedText : string,
@@ -216,7 +220,7 @@ export default function TransferList(props: TransferListProps) {
                 className={classes.textField}
                 fullWidth
                 size={"small"}
-                placeholder={"Search"}
+                placeholder={props.searchBoxPlaceholder}
                 value={state.search}
                 onChange={onChangeText}
               />
@@ -254,11 +258,13 @@ export default function TransferList(props: TransferListProps) {
             </Button>
 
             <Button onClick={cleanAll}>
-              <Typography variant={"caption"}>Clean all</Typography>
+              <Typography variant={"caption"}>{props.buttonCleanAllText}</Typography>
             </Button>
 
             <Button disabled={props.maximumSelectableItem > 0} onClick={selectAll}>
-              <Typography variant={"caption"}>{props.maximumSelectableItem < 0? "Select all" : "Maximum selectable item : " +props.maximumSelectableItem}</Typography>
+              <Typography variant={"caption"}>
+                {props.maximumSelectableItem < 0? props.buttonSelectAllText : props.maximumSelectableItemText +props.maximumSelectableItem}
+                </Typography>
             </Button>
 
           </ButtonGroup>
@@ -270,6 +276,10 @@ export default function TransferList(props: TransferListProps) {
 }
 
 TransferList.propTypes = {
+  maximumSelectableItemText : PropTypes.string ,
+  buttonCleanAllText : PropTypes.string,
+  buttonSelectAllText : PropTypes.string,
+  searchBoxPlaceholder : PropTypes.string,
   menuShowAllText : PropTypes.string,
   menuShowSelectedText : PropTypes.string,
   menuShowUnselectedText : PropTypes.string,
@@ -289,6 +299,10 @@ TransferList.propTypes = {
   readyOnly: PropTypes.bool
 };
 TransferList.defaultProps = {
+  maximumSelectableItemText : "Maximum selectable item : ",
+  buttonCleanAllText : "Clean all",
+  buttonSelectAllText : "Select all",
+  searchBoxPlaceholder : "Search",
   menuShowAllText : "Show all",
   menuShowSelectedText : "Show selected",
   menuShowUnselectedText : "Show unselected",
