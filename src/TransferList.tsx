@@ -84,6 +84,9 @@ const getPage = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode:
 };
 
 export type TransferListProps = {
+  menuShowAllText : string,
+  menuShowSelectedText : string,
+  menuShowUnselectedText : string,
   onChange: any,
   sourceList: Array<IItem>,
   selectedList: Array<IItem>,
@@ -178,12 +181,15 @@ export default function TransferList(props: TransferListProps) {
         anchorEl={state.anchor}
         open={Boolean(state.anchor)}
         onClose={() => setState({...state, anchor: null})}>
-        <MenuItem selected={state.mode === EnumMode.all}
-                  onClick={() => setMode(EnumMode.all)}>Show all</MenuItem>
-        <MenuItem selected={state.mode === EnumMode.onlySelected}
-                  onClick={() => setMode(EnumMode.onlySelected)}>Show selected</MenuItem>
-        <MenuItem selected={state.mode === EnumMode.onlyNotSelected}
-                  onClick={() => setMode(EnumMode.onlyNotSelected)}>Show unselected</MenuItem>
+        <MenuItem 
+        selected={state.mode === EnumMode.all}
+        onClick={() => setMode(EnumMode.all)}>{props.menuShowAllText}</MenuItem>
+        <MenuItem 
+        selected={state.mode === EnumMode.onlySelected}
+        onClick={() => setMode(EnumMode.onlySelected)}>{props.menuShowSelectedText}</MenuItem>
+        <MenuItem 
+        selected={state.mode === EnumMode.onlyNotSelected}
+        onClick={() => setMode(EnumMode.onlyNotSelected)}>{props.menuShowUnselectedText}</MenuItem>
       </Menu>
       <CardHeader
         className={classes.cardHeader}
@@ -264,6 +270,9 @@ export default function TransferList(props: TransferListProps) {
 }
 
 TransferList.propTypes = {
+  menuShowAllText : PropTypes.string,
+  menuShowSelectedText : PropTypes.string,
+  menuShowUnselectedText : PropTypes.string,
   onChange: PropTypes.func,
   sourceList: PropTypes.array,
   selectedList: PropTypes.array,
@@ -280,6 +289,9 @@ TransferList.propTypes = {
   readyOnly: PropTypes.bool
 };
 TransferList.defaultProps = {
+  menuShowAllText : "Show all",
+  menuShowSelectedText : "Show selected",
+  menuShowUnselectedText : "Show unselected",
   onChange: () => [],
   sourceList: [],
   selectedList: [],
