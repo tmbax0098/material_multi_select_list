@@ -15,6 +15,13 @@ _________________________________________
     return (
         <Box p={5}>
             <TransferList
+                maximumSelectableItemText={"Maximum selectable item : "},
+                buttonCleanAllText={"Clean all"}
+                buttonSelectAllText={"Select all"}
+                searchBoxPlaceholder={"Search"}
+                menuShowAllText={"Show all"}
+                menuShowSelectedText={"Show selected"}
+                menuShowUnselectedText={"Show unselected"}
                 onChange={setSelectedList}
                 sourceList={list}
                 selectedList={selectedList}
@@ -36,38 +43,51 @@ _________________________________________
 # Default value of properties
 _____________________________________________________
     TransferList.propTypes = {
-    onChange: PropTypes.func,
-    sourceList: PropTypes.array,
-    selectedList: PropTypes.array,
-    title: PropTypes.string,
-    chipText: PropTypes.string,
-    pageSize: PropTypes.number,
-    chipIcon: PropTypes.any,
-    searchIcon: PropTypes.any,
-    menuIcon: PropTypes.any,
-    rightIcon: PropTypes.any,
-    leftIcon: PropTypes.any,
-    searchResetIcon: PropTypes.any,
-    maximumSelectableItem: PropTypes.number,
-    readyOnly : PropTypes.bool
+        maximumSelectableItemText : PropTypes.string ,
+        buttonCleanAllText : PropTypes.string,
+        buttonSelectAllText : PropTypes.string,
+        searchBoxPlaceholder : PropTypes.string,
+        menuShowAllText : PropTypes.string,
+        menuShowSelectedText : PropTypes.string,
+        menuShowUnselectedText : PropTypes.string,
+        onChange: PropTypes.func,
+        sourceList: PropTypes.array,
+        selectedList: PropTypes.array,
+        title: PropTypes.string,
+        chipText: PropTypes.string,
+        pageSize: PropTypes.number,
+        chipIcon: PropTypes.any,
+        searchIcon: PropTypes.any,
+        menuIcon: PropTypes.any,
+        rightIcon: PropTypes.any,
+        leftIcon: PropTypes.any,
+        searchResetIcon: PropTypes.any,
+        maximumSelectableItem: PropTypes.number,
+        readyOnly: PropTypes.bool
     };
-
     TransferList.defaultProps = {
-    onChange: () => [],
-    sourceList: [],
-    selectedList: [],
-    title: "Title",
-    chipText: "Selected items",
-    pageSize: 5,
-    chipIcon: null,
-    searchIcon: "S",
-    menuIcon: "M",
-    rightIcon: ">",
-    leftIcon: "<",
-    searchResetIcon: "X",
-    maximumSelectableItem: -1,
-    readyOnly : false
-    }
+        maximumSelectableItemText : "Maximum selectable item : ",
+        buttonCleanAllText : "Clean all",
+        buttonSelectAllText : "Select all",
+        searchBoxPlaceholder : "Search",
+        menuShowAllText : "Show all",
+        menuShowSelectedText : "Show selected",
+        menuShowUnselectedText : "Show unselected",
+        onChange: () => [],
+        sourceList: [],
+        selectedList: [],
+        title: "Title",
+        chipText: "Selected items",
+        pageSize: 5,
+        chipIcon: null,
+        searchIcon: "S",
+        menuIcon: "M",
+        rightIcon: ">",
+        leftIcon: "<",
+        searchResetIcon: "X",
+        maximumSelectableItem: -1,
+        readyOnly: false
+    };
 
 # Properties Example
 
