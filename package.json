@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tmbax0098/material_multi_select_list.git"
+    "url": "git+https://github.com/tmbax0098/material_multi_select_list.git"
   },
   "keywords": [
     "react",
