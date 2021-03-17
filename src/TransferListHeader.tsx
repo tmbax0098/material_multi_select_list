@@ -1,32 +1,26 @@
-import {Badge, Box, Chip, IconButton, Typography} from "@material-ui/core";
+import { Box, Chip, IconButton, Typography } from "@material-ui/core";
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export type TransferListHeaderProps = {
   title: string,
-  chipText: string,
   count: number,
-  chipIcon: any,
   searchIcon: any,
   menuIcon: any,
-  searchResetIcon: any
   active: boolean,
   toggleActive: any,
   toggleMenu: any
 };
 
 const TransferListHeader: React.FC<TransferListHeaderProps> = ({
-                                                                        title,
-                                                                        chipText,
-                                                                        count,
-                                                                        chipIcon,
-                                                                        active,
-                                                                        menuIcon,
-                                                                        searchIcon,
-                                                                        searchResetIcon,
-                                                                        toggleActive,
-                                                                        toggleMenu
-                                                                      }) => {
+  title,
+  count,
+  active,
+  menuIcon,
+  searchIcon,
+  toggleActive,
+  toggleMenu
+}) => {
 
   return (
     <Box
@@ -36,40 +30,28 @@ const TransferListHeader: React.FC<TransferListHeaderProps> = ({
       pl={1}
       pr={1}>
       <Box flexGrow={1}>
-        <Typography variant={'body1'} align={"left"} style={{fontWeight : "bold"}}> {title} </Typography>
+        <Typography variant={'body1'} align={"left"}> {title} </Typography>
       </Box>
       <Box>
-        <Chip
-          icon={chipIcon}
-          label={
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              pr={1}>
-              <Box pr={2}>
-                <Typography variant={'caption'}>
-                  {chipText}
-                </Typography>
-              </Box>
-              <Box>
-                <Badge
-                  showZero={true}
-                  badgeContent={count}
-                  color="primary"/>
-              </Box>
-            </Box>
-          }
-        />
+        <Chip color="primary" label={count} />
       </Box>
       <Box>
         <IconButton
+          disableFocusRipple
+          disableRipple
+          disableTouchRipple
+          color={active ? "primary" : "inherit"}
           size={"medium"}
           onClick={toggleActive}>
-          {active ? searchResetIcon : searchIcon}
+          {searchIcon}
         </IconButton>
       </Box>
       <Box>
         <IconButton
+          disableFocusRipple
+          disableRipple
+          disableTouchRipple
+          color="inherit"
           size={"medium"}
           onClick={toggleMenu}>
           {menuIcon}
@@ -82,24 +64,18 @@ const TransferListHeader: React.FC<TransferListHeaderProps> = ({
 
 TransferListHeader.propTypes = {
   title: PropTypes.any,
-  chipText: PropTypes.any,
   count: PropTypes.any,
-  chipIcon: PropTypes.any,
   searchIcon: PropTypes.any,
   menuIcon: PropTypes.any,
-  searchResetIcon: PropTypes.any,
   active: PropTypes.any,
   toggleActive: PropTypes.func,
   toggleMenu: PropTypes.func
 };
 TransferListHeader.defaultProps = {
   title: "",
-  chipText: "Selected items",
   count: 0,
-  chipIcon: null,
   searchIcon: "search",
   menuIcon: "menu",
-  searchResetIcon: "X",
   active: false,
   toggleActive: () => null,
   toggleMenu: () => null

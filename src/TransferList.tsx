@@ -18,20 +18,16 @@ import { Item } from "./Item";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    card: {},
-    cardContent: {
+    body: {
       padding: 0,
+      margin: 0,
     },
-
     footer: {
       padding: 0,
       margin: 0,
       backgroundColor: theme.palette.action.hover,
-      width: "100%",
-      borderTop: 1,
       borderColor: theme.palette.divider
     },
-
     header: {
       padding: 0,
       margin: 0,
@@ -42,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 0,
       backgroundColor: theme.palette.action.hover,
       borderBottomColor: theme.palette.divider
+    },
+    buttonText: {
+      textTransform: "none"
     }
   }),
 );
@@ -87,6 +86,7 @@ const getPage = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode:
 };
 
 export type TransferListProps = {
+  borderWidth: number,
   maximumSelectableItemText: string,
   buttonCleanAllText: string,
   buttonSelectAllText: string,
@@ -98,17 +98,29 @@ export type TransferListProps = {
   sourceList: Array<IItem>,
   selectedList: Array<IItem>,
   title: string,
-  chipText: string
   pageSize: number,
-  chipIcon: any,
   searchIcon: any,
   menuIcon: any,
   rightIcon: any,
   leftIcon: any,
-  searchResetIcon: any,
   maximumSelectableItem: number,
   readyOnly: boolean
 };
+
+export type TransferMenuItemProps = {
+  selected: boolean,
+  text: string,
+  onClick: any
+};
+
+function TransferMenuItem(props: TransferMenuItemProps) {
+  return (<MenuItem selected={props.selected} onClick={props.onClick}>
+    <Typography variant={"caption"}>
+      {props.text}
+    </Typography>
+  </MenuItem>);
+}
+
 
 export default function TransferList(props: TransferListProps) {
 
@@ -174,7 +186,7 @@ export default function TransferList(props: TransferListProps) {
   }, [props, state]);
 
   return (
-    <Box>
+    <Box border={props.borderWidth} borderColor="divider">
       <Menu
         style={{ marginTop: 4 }}
         anchorOrigin={{
@@ -188,32 +200,36 @@ export default function TransferList(props: TransferListProps) {
         anchorEl={state.anchor}
         open={Boolean(state.anchor)}
         onClose={() => setState({ ...state, anchor: null })}>
-        <MenuItem
+
+        <TransferMenuItem
+          text={props.menuShowAllText}
           selected={state.mode === EnumMode.all}
-          onClick={() => setMode(EnumMode.all)}>{props.menuShowAllText}</MenuItem>
-        <MenuItem
+          onClick={() => setMode(EnumMode.all)} />
+        <TransferMenuItem
+          text={props.menuShowSelectedText}
           selected={state.mode === EnumMode.onlySelected}
-          onClick={() => setMode(EnumMode.onlySelected)}>{props.menuShowSelectedText}</MenuItem>
-        <MenuItem
+          onClick={() => setMode(EnumMode.onlySelected)} />
+        <TransferMenuItem
+          text={props.menuShowUnselectedText}
           selected={state.mode === EnumMode.onlyNotSelected}
-          onClick={() => setMode(EnumMode.onlyNotSelected)}>{props.menuShowUnselectedText}</MenuItem>
+          onClick={() => setMode(EnumMode.onlyNotSelected)} />
+
       </Menu>
 
       <Box className={classes.header}>
         <TransferListHeader
-          chipIcon={props.chipIcon}
           menuIcon={props.menuIcon}
           searchIcon={props.searchIcon}
-          searchResetIcon={props.searchResetIcon}
           count={state.selectedList.length}
           title={props.title}
-          chipText={props.chipText}
           active={state.activeSearch}
           toggleActive={toggleActiveSearch}
           toggleMenu={toggleMenu}
         />
       </Box>
-      <Box borderBottom={state.activeSearch ? 0 : 1} className={classes.boxSearch}>
+      <Box
+        borderBottom={state.activeSearch ? 0 : props.borderWidth}
+        className={classes.boxSearch}>
         <Collapse in={state.activeSearch}>
           <TextField
             fullWidth
@@ -226,7 +242,7 @@ export default function TransferList(props: TransferListProps) {
         </Collapse>
       </Box>
 
-      <Box className={classes.cardContent} style={{ minHeight: props.pageSize * 40 }}>
+      <Box className={classes.body} style={{ minHeight: props.pageSize * 40 }}>
         <List>
           {
             getPage(state.list, state.selectedList, state.mode, state.page, props.pageSize, state.search).map((item, index) => (
@@ -240,24 +256,34 @@ export default function TransferList(props: TransferListProps) {
         </List>
       </Box>
 
-      <Box className={classes.footer}>
+      <Box className={classes.footer} borderTop={props.borderWidth}>
         <ButtonGroup variant={"text"} size={"small"} color={"default"}>
           <Button onClick={prevPage}>
             {props.leftIcon}
           </Button>
           <Button disabled>
-            {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, props.pageSize, state.search)}
+            <Typography
+              className={classes.buttonText}
+              variant={"caption"}>
+              {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, props.pageSize, state.search)}
+            </Typography>
           </Button>
           <Button onClick={nextPage}>
             {props.rightIcon}
           </Button>
 
           <Button onClick={cleanAll}>
-            <Typography variant={"caption"}>{props.buttonCleanAllText}</Typography>
+            <Typography
+              className={classes.buttonText}
+              variant={"caption"}>
+              {props.buttonCleanAllText}
+            </Typography>
           </Button>
 
-          <Button disabled={props.maximumSelectableItem > 0} onClick={selectAll}>
-            <Typography variant={"caption"}>
+          <Button
+            disabled={props.maximumSelectableItem > 0}
+            onClick={selectAll}>
+            <Typography className={classes.buttonText} variant={"caption"}>
               {props.maximumSelectableItem < 0 ? props.buttonSelectAllText : props.maximumSelectableItemText + props.maximumSelectableItem}
             </Typography>
           </Button>
@@ -269,6 +295,7 @@ export default function TransferList(props: TransferListProps) {
 }
 
 TransferList.propTypes = {
+  borderWidth: PropTypes.number,
   maximumSelectableItemText: PropTypes.string,
   buttonCleanAllText: PropTypes.string,
   buttonSelectAllText: PropTypes.string,
@@ -280,18 +307,16 @@ TransferList.propTypes = {
   sourceList: PropTypes.array,
   selectedList: PropTypes.array,
   title: PropTypes.string,
-  chipText: PropTypes.string,
   pageSize: PropTypes.number,
-  chipIcon: PropTypes.any,
   searchIcon: PropTypes.any,
   menuIcon: PropTypes.any,
   rightIcon: PropTypes.any,
   leftIcon: PropTypes.any,
-  searchResetIcon: PropTypes.any,
   maximumSelectableItem: PropTypes.number,
   readyOnly: PropTypes.bool
 };
 TransferList.defaultProps = {
+  borderWidth: 0,
   maximumSelectableItemText: "Maximum selectable item : ",
   buttonCleanAllText: "Clean all",
   buttonSelectAllText: "Select all",
@@ -303,14 +328,11 @@ TransferList.defaultProps = {
   sourceList: [],
   selectedList: [],
   title: "Title",
-  chipText: "Selected items",
   pageSize: 5,
-  chipIcon: null,
   searchIcon: "S",
   menuIcon: "M",
   rightIcon: ">",
   leftIcon: "<",
-  searchResetIcon: "X",
   maximumSelectableItem: -1,
   readyOnly: false
 }
