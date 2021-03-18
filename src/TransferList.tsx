@@ -8,13 +8,13 @@ import {
   Collapse,
   List,
   Menu,
-  MenuItem,
   TextField,
   Typography
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TransferListHeader from "./TransferListHeader";
 import { Item } from "./Item";
+import { TransferMenuItem } from "./TransferMenuItem";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -106,21 +106,6 @@ export type TransferListProps = {
   maximumSelectableItem: number,
   readyOnly: boolean
 };
-
-export type TransferMenuItemProps = {
-  selected: boolean,
-  text: string,
-  onClick: any
-};
-
-function TransferMenuItem(props: TransferMenuItemProps) {
-  return (<MenuItem selected={props.selected} onClick={props.onClick}>
-    <Typography variant={"caption"}>
-      {props.text}
-    </Typography>
-  </MenuItem>);
-}
-
 
 export default function TransferList(props: TransferListProps) {
 

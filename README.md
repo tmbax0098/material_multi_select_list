@@ -17,30 +17,45 @@
     const [selectedList, setSelectedList] = useState([1 , 3]);
 
     return (
-        <Box p={5}>
-            <TransferList
-                borderWidth={1}
-                maximumSelectableItemText={"Maximum selectable item : "},
-                buttonCleanAllText={"Clean all"}
-                buttonSelectAllText={"Select all"}
-                searchBoxPlaceholder={"Search"}
-                menuShowAllText={"Show all"}
-                menuShowSelectedText={"Show selected"}
-                menuShowUnselectedText={"Show unselected"}
-                onChange={setSelectedList}
-                sourceList={list}
-                selectedList={selectedList}
-                title={"Multi Select List"}
-                pageSize={5}
-                leftIcon={"<"}
-                rightIcon={">"}
-                searchIcon={"Search"}
-                menuIcon={"Menu"}
-                maximumSelectableItem={2}
-                readOnly={false}
-                searchResetIcon={"Reset"}/>
-        </Box>
+        <TransferList
+            title="Multi select list"
+            borderWidth={2}
+            buttonCleanAllText={"unselect all"}
+            buttonSelectAllText={"select all"}
+            leftIcon={<ChevronLeft />}
+            rightIcon={<ChevronRight/>}
+            searchIcon={<SearchIcon />}
+            menuIcon={<MenuOutlined />}
+            pageSize={5}
+            sourceList={list}
+            selectedList={selectedList}
+            onChange={setSelectedList}
+        />
     );
+
+# Properties
+
+    TransferList.propTypes = {
+      borderWidth: PropTypes.number,
+      maximumSelectableItemText: PropTypes.string,
+      buttonCleanAllText: PropTypes.string,
+      buttonSelectAllText: PropTypes.string,
+      searchBoxPlaceholder: PropTypes.string,
+      menuShowAllText: PropTypes.string,
+      menuShowSelectedText: PropTypes.string,
+      menuShowUnselectedText: PropTypes.string,
+      onChange: PropTypes.func,
+      sourceList: PropTypes.array,
+      selectedList: PropTypes.array,
+      title: PropTypes.string,
+      pageSize: PropTypes.number,
+      searchIcon: PropTypes.any,
+      menuIcon: PropTypes.any,
+      rightIcon: PropTypes.any,
+      leftIcon: PropTypes.any,
+      maximumSelectableItem: PropTypes.number,
+      readyOnly: PropTypes.bool
+    };
 
 # Default value of properties
 
@@ -62,7 +77,6 @@
       menuIcon: "M",
       rightIcon: ">",
       leftIcon: "<",
-      searchResetIcon: "X",
       maximumSelectableItem: -1,
       readyOnly: false
     };
