@@ -124,7 +124,7 @@ export default function TransferList(props: TransferListProps) {
   const toggleActiveSearch = () => setState({ ...state, activeSearch: !state.activeSearch });
 
   // @ts-ignore
-  const onChangeText = e => setState({ ...state, search: e.target.value });
+  const onChangeText = e => setState({ ...state, search: e.target.value , page : 0 });
   const setMode = (newMode: EnumMode) => setState({ ...state, mode: newMode, page: 0, anchor: null });
   const nextPage = () => {
     if (state.page + 1 < getFilter(state.list, state.selectedList, state.mode, props.pageSize)) {
