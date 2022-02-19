@@ -72,7 +72,7 @@ enum EnumMode {
   onlyNotSelected
 }
 
-const getFilter = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode: EnumMode = EnumMode.all, pageSize: number = 5, search: string = "") => {
+const getFilter = (list: Array<IItem> = [], selectedList: Array<number> = [], mode: EnumMode = EnumMode.all, pageSize: number = 5, search: string = "") => {
 
   if (mode === EnumMode.onlyNotSelected) {
     return Math.ceil(list.filter(item => selectedList.indexOf(item.value) === -1).filter(item => item.text.search(search) !== -1).length / pageSize);
@@ -82,7 +82,7 @@ const getFilter = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mod
     return Math.ceil(list.filter(item => item.text.search(search) !== -1).length / pageSize);
   }
 };
-const getPage = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode: EnumMode = EnumMode.all, pageIndex: number = 0, pageSize: number = 5, search: string = "") => {
+const getPage = (list: Array<IItem> = [], selectedList: Array<number> = [], mode: EnumMode = EnumMode.all, pageIndex: number = 0, pageSize: number = 5, search: string = "") => {
 
   let startIndex = pageIndex * pageSize;
   let endIndex = (pageIndex + 1) * pageSize;
@@ -102,25 +102,25 @@ const getPage = (list: Array<IItem> = [], selectedList: Array<IItem> = [], mode:
 };
 
 export type TransferListProps = {
-  borderWidth: number,
-  maximumSelectableItemText: string,
-  buttonCleanAllText: string,
-  buttonSelectAllText: string,
-  searchBoxPlaceholder: string,
-  menuShowAllText: string,
-  menuShowSelectedText: string,
-  menuShowUnselectedText: string,
+  borderWidth?: number,
+  maximumSelectableItemText?: string,
+  buttonCleanAllText?: string,
+  buttonSelectAllText?: string,
+  searchBoxPlaceholder?: string,
+  menuShowAllText?: string,
+  menuShowSelectedText?: string,
+  menuShowUnselectedText?: string,
   onChange?: any,
   sourceList: Array<IItem>,
-  selectedList: Array<IItem>,
-  title: string,
-  pageSize: number,
-  searchIcon: any,
-  menuIcon: any,
-  rightIcon: any,
-  leftIcon: any,
-  maximumSelectableItem: number,
-  readyOnly: boolean
+  selectedList: Array<number>,
+  title?: string,
+  pageSize?: number,
+  searchIcon?: any,
+  menuIcon?: any,
+  rightIcon?: any,
+  leftIcon?: any,
+  maximumSelectableItem?: number,
+  readyOnly?: boolean
 };
 
 export default function TransferList({
@@ -222,7 +222,6 @@ export default function TransferList({
         anchorEl={state.anchor}
         open={Boolean(state.anchor)}
         onClose={closeMenu}>
-
         <TransferMenuItem
           text={menuShowAllText}
           selected={state.mode === EnumMode.all}
@@ -235,7 +234,6 @@ export default function TransferList({
           text={menuShowUnselectedText}
           selected={state.mode === EnumMode.onlyNotSelected}
           onClick={() => setMode(EnumMode.onlyNotSelected)}/>
-
       </Menu>
 
       <div className={classes.header}>
@@ -269,6 +267,7 @@ export default function TransferList({
               key={"ii-" + index}
               text={item.text}
               onClick={() => onClick(item)}
+              showCheck={state.mode === EnumMode.all}
               checked={state.selectedList.indexOf(item.value) !== -1}/>
           ))
         }

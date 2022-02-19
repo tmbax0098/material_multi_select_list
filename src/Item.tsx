@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body1,
     padding: 0,
     margin: 0,
+    textAlign: "start",
     flexGrow: 1,
   },
   button: {
@@ -25,15 +26,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 export type ItemProps = {
   onClick: any,
   checked: boolean,
-  text: string
+  text: string,
+  showCheck: boolean
 };
 
-export function Item({onClick = () => null, text = "", checked = false}: ItemProps) {
+export function Item({onClick = () => null, text = "", checked = false, showCheck = false}: ItemProps) {
 
   const classes = useStyles();
 
   return (
     <button type="button" onClick={onClick} className={classes.button}>
+      {showCheck &&
       <Checkbox
         className={classes.checkbox}
         size={"small"}
@@ -41,7 +44,7 @@ export function Item({onClick = () => null, text = "", checked = false}: ItemPro
         checked={checked}
         tabIndex={-1}
         disableRipple
-      />
+      />}
       <p className={classes.text}>{text}</p>
     </button>
   )
