@@ -1,13 +1,11 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import * as PropTypes from "prop-types";
-import {Collapse, List, Menu, TextField} from "@material-ui/core";
+import {Collapse, Menu, TextField} from "@material-ui/core";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import TransferListHeader from "./TransferListHeader";
 import {Item} from "./Item";
 import {TransferMenuItem} from "./TransferMenuItem";
 import clsx from "clsx";
-// import * as clsx from "clsx"
 
 type StylesProps = {
   borderWidth: number,
@@ -112,7 +110,7 @@ export type TransferListProps = {
   menuShowAllText: string,
   menuShowSelectedText: string,
   menuShowUnselectedText: string,
-  onChange: any,
+  onChange?: any,
   sourceList: Array<IItem>,
   selectedList: Array<IItem>,
   title: string,
@@ -125,16 +123,36 @@ export type TransferListProps = {
   readyOnly: boolean
 };
 
-export default function TransferList(props: TransferListProps) {
+export default function TransferList({
+                                       borderWidth = 0,
+                                       maximumSelectableItemText = "Maximum selectable item : ",
+                                       buttonCleanAllText = "Clean all",
+                                       buttonSelectAllText = "Select all",
+                                       searchBoxPlaceholder = "Search",
+                                       menuShowAllText = "Show all",
+                                       menuShowSelectedText = "Show selected",
+                                       menuShowUnselectedText = "Show unselected",
+                                       onChange = () => [],
+                                       sourceList = [],
+                                       selectedList = [],
+                                       title = "Title",
+                                       pageSize = 5,
+                                       searchIcon = "S",
+                                       menuIcon = "M",
+                                       rightIcon = ">",
+                                       leftIcon = "<",
+                                       maximumSelectableItem = -1,
+                                       readyOnly = false
+                                     }: TransferListProps) {
 
-  const classes = useStyles({borderWidth: props.borderWidth, pageSize: props.pageSize});
+  const classes = useStyles({borderWidth: borderWidth, pageSize: pageSize});
 
   const [state, setState] = useState({
     page: 0,
-    list: props.sourceList,
+    list: sourceList,
     search: "",
     activeSearch: false,
-    selectedList: props.selectedList,
+    selectedList: selectedList,
     mode: EnumMode.all,
     anchor: null
   });
@@ -145,7 +163,7 @@ export default function TransferList(props: TransferListProps) {
   const onChangeText = e => setState({...state, search: e.target.value, page: 0});
   const setMode = (newMode: EnumMode) => setState({...state, mode: newMode, page: 0, anchor: null});
   const nextPage = () => {
-    if (state.page + 1 < getFilter(state.list, state.selectedList, state.mode, props.pageSize)) {
+    if (state.page + 1 < getFilter(state.list, state.selectedList, state.mode, pageSize)) {
       setState({...state, page: state.page + 1});
     }
   }
@@ -155,25 +173,25 @@ export default function TransferList(props: TransferListProps) {
     }
   }
   const onClick = (item: IItem) => {
-    if (props.readyOnly) return;
+    if (readyOnly) return;
     if (state.selectedList.indexOf(item.value) !== -1) {
       state.selectedList.splice(state.selectedList.indexOf(item.value), 1);
     } else {
-      if (props.maximumSelectableItem < 0 || (props.maximumSelectableItem > -1 && state.selectedList.length < props.maximumSelectableItem)) {
+      if (maximumSelectableItem < 0 || (maximumSelectableItem > -1 && state.selectedList.length < maximumSelectableItem)) {
         state.selectedList.push(item.value);
       }
     }
     setState({...state});
   }
   const cleanAll = () => {
-    if (props.readyOnly) return;
+    if (readyOnly) return;
     state.page = 0;
     state.mode = EnumMode.onlyNotSelected;
     state.selectedList = [];
     setState({...state});
   }
   const selectAll = () => {
-    if (props.readyOnly) return;
+    if (readyOnly) return;
     state.selectedList = state.list.map(item => item.value);
     state.page = 0;
     state.mode = EnumMode.onlySelected;
@@ -184,10 +202,10 @@ export default function TransferList(props: TransferListProps) {
   const toggleMenu = e => setState({...state, anchor: e.target})
 
   useEffect(() => {
-    if (typeof props.onChange === "function" && !props.readyOnly && JSON.stringify(state.selectedList) !== JSON.stringify(props.selectedList)) {
-      props.onChange(state.selectedList)
+    if (typeof onChange === "function" && !readyOnly && JSON.stringify(state.selectedList) !== JSON.stringify(selectedList)) {
+      onChange(state.selectedList)
     }
-  }, [props, state]);
+  }, [selectedList, state, readyOnly, onChange]);
 
   return (
     <div className={classes.root}>
@@ -206,15 +224,15 @@ export default function TransferList(props: TransferListProps) {
         onClose={closeMenu}>
 
         <TransferMenuItem
-          text={props.menuShowAllText}
+          text={menuShowAllText}
           selected={state.mode === EnumMode.all}
           onClick={() => setMode(EnumMode.all)}/>
         <TransferMenuItem
-          text={props.menuShowSelectedText}
+          text={menuShowSelectedText}
           selected={state.mode === EnumMode.onlySelected}
           onClick={() => setMode(EnumMode.onlySelected)}/>
         <TransferMenuItem
-          text={props.menuShowUnselectedText}
+          text={menuShowUnselectedText}
           selected={state.mode === EnumMode.onlyNotSelected}
           onClick={() => setMode(EnumMode.onlyNotSelected)}/>
 
@@ -222,10 +240,10 @@ export default function TransferList(props: TransferListProps) {
 
       <div className={classes.header}>
         <TransferListHeader
-          menuIcon={props.menuIcon}
-          searchIcon={props.searchIcon}
+          menuIcon={menuIcon}
+          searchIcon={searchIcon}
           count={state.selectedList.length}
-          title={props.title}
+          title={title}
           active={state.activeSearch}
           toggleActive={toggleActiveSearch}
           toggleMenu={toggleMenu}
@@ -237,7 +255,7 @@ export default function TransferList(props: TransferListProps) {
             fullWidth
             size={"small"}
             variant="filled"
-            placeholder={props.searchBoxPlaceholder}
+            placeholder={searchBoxPlaceholder}
             value={state.search}
             onChange={onChangeText}
           />
@@ -245,79 +263,34 @@ export default function TransferList(props: TransferListProps) {
       </div>
 
       <div className={classes.body}>
-        <List>
-          {
-            getPage(state.list, state.selectedList, state.mode, state.page, props.pageSize, state.search).map((item, index) => (
-              <Item
-                key={"ii-" + index}
-                text={item.text}
-                onClick={() => onClick(item)}
-                checked={state.selectedList.indexOf(item.value) !== -1}/>
-            ))
-          }
-        </List>
+        {
+          getPage(state.list, state.selectedList, state.mode, state.page, pageSize, state.search).map((item, index) => (
+            <Item
+              key={"ii-" + index}
+              text={item.text}
+              onClick={() => onClick(item)}
+              checked={state.selectedList.indexOf(item.value) !== -1}/>
+          ))
+        }
       </div>
 
       <div className={classes.footer}>
         <button onClick={prevPage} className={classes.button}>
-          {props.leftIcon}
+          {leftIcon}
         </button>
         <span className={classes.button}>
-          {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, props.pageSize, state.search)}
+          {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, pageSize, state.search)}
         </span>
         <button onClick={nextPage} className={classes.button}>
-          {props.rightIcon}
+          {rightIcon}
         </button>
         <button onClick={cleanAll} className={classes.button}>
-          {props.buttonCleanAllText}
+          {buttonCleanAllText}
         </button>
-        <button disabled={props.maximumSelectableItem > 0} onClick={selectAll} className={classes.button}>
-          {props.maximumSelectableItem < 0 ? props.buttonSelectAllText : props.maximumSelectableItemText + props.maximumSelectableItem}
+        <button disabled={maximumSelectableItem > 0} onClick={selectAll} className={classes.button}>
+          {maximumSelectableItem < 0 ? buttonSelectAllText : maximumSelectableItemText + maximumSelectableItem}
         </button>
       </div>
     </div>
   );
-}
-
-TransferList.propTypes = {
-  borderWidth: PropTypes.number,
-  maximumSelectableItemText: PropTypes.string,
-  buttonCleanAllText: PropTypes.string,
-  buttonSelectAllText: PropTypes.string,
-  searchBoxPlaceholder: PropTypes.string,
-  menuShowAllText: PropTypes.string,
-  menuShowSelectedText: PropTypes.string,
-  menuShowUnselectedText: PropTypes.string,
-  onChange: PropTypes.func,
-  sourceList: PropTypes.array,
-  selectedList: PropTypes.array,
-  title: PropTypes.string,
-  pageSize: PropTypes.number,
-  searchIcon: PropTypes.any,
-  menuIcon: PropTypes.any,
-  rightIcon: PropTypes.any,
-  leftIcon: PropTypes.any,
-  maximumSelectableItem: PropTypes.number,
-  readyOnly: PropTypes.bool
-};
-TransferList.defaultProps = {
-  borderWidth: 0,
-  maximumSelectableItemText: "Maximum selectable item : ",
-  buttonCleanAllText: "Clean all",
-  buttonSelectAllText: "Select all",
-  searchBoxPlaceholder: "Search",
-  menuShowAllText: "Show all",
-  menuShowSelectedText: "Show selected",
-  menuShowUnselectedText: "Show unselected",
-  onChange: () => [],
-  sourceList: [],
-  selectedList: [],
-  title: "Title",
-  pageSize: 5,
-  searchIcon: "S",
-  menuIcon: "M",
-  rightIcon: ">",
-  leftIcon: "<",
-  maximumSelectableItem: -1,
-  readyOnly: false
 }

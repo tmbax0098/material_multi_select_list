@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export type TransferListHeaderProps = {
+export type Props = {
   title: string,
   count: number,
   searchIcon: any,
@@ -45,15 +45,15 @@ export type TransferListHeaderProps = {
   toggleMenu: any
 };
 
-const TransferListHeader: React.FC<TransferListHeaderProps> = ({
-                                                                 title = "",
-                                                                 count = 0,
-                                                                 active = false,
-                                                                 menuIcon = "menu",
-                                                                 searchIcon = "search",
-                                                                 toggleActive = () => null,
-                                                                 toggleMenu = () => null
-                                                               }) => {
+export default function TransferListHeader({
+                                             title = "",
+                                             count = 0,
+                                             active = false,
+                                             menuIcon = "menu",
+                                             searchIcon = "search",
+                                             toggleActive = () => null,
+                                             toggleMenu = () => null
+                                           }: Props) {
 
   const classes = useStyles();
 
@@ -72,4 +72,3 @@ const TransferListHeader: React.FC<TransferListHeaderProps> = ({
 
 }
 
-export default TransferListHeader;

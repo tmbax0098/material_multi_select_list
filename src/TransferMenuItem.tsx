@@ -4,16 +4,15 @@ import {makeStyles, Theme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: theme.typography.caption
-
 }));
 
-export type TransferMenuItemProps = {
+type Props = {
   selected: boolean,
   text: string,
   onClick: any
 };
 
-export function TransferMenuItem(props: TransferMenuItemProps) {
+export function TransferMenuItem({text = "", onClick, selected = false}: Props) {
   const classes = useStyles();
-  return (<MenuItem selected={props.selected} onClick={props.onClick} className={classes.root}>{props.text}</MenuItem>);
+  return (<MenuItem selected={selected} onClick={onClick} className={classes.root}>{text}</MenuItem>);
 }

@@ -1,6 +1,26 @@
 import * as React from 'react';
-import * as PropTypes from "prop-types";
-import {Checkbox, ListItem, Typography} from "@material-ui/core";
+import {Checkbox} from "@material-ui/core";
+import {makeStyles, Theme} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  text: {
+    ...theme.typography.body1,
+    padding: 0,
+    margin: 0,
+    flexGrow: 1,
+  },
+  button: {
+    height: 40,
+    width: '100%',
+    outline: "none",
+    border: "none",
+    background: "transparent",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  checkbox: {padding: 3}
+}));
 
 export type ItemProps = {
   onClick: any,
@@ -8,30 +28,21 @@ export type ItemProps = {
   text: string
 };
 
-export function Item(props: ItemProps) {
+export function Item({onClick = () => null, text = "", checked = false}: ItemProps) {
+
+  const classes = useStyles();
+
   return (
-    <ListItem dense onClick={props.onClick} button>
+    <button type="button" onClick={onClick} className={classes.button}>
       <Checkbox
-        style={{padding: 3}}
+        className={classes.checkbox}
         size={"small"}
         edge="start"
-        checked={props.checked}
+        checked={checked}
         tabIndex={-1}
         disableRipple
       />
-      <Typography variant={"caption"}>{props.text}</Typography>
-    </ListItem>
+      <p className={classes.text}>{text}</p>
+    </button>
   )
-}
-
-Item.propTypes = {
-  onClick: PropTypes.func,
-  checked: PropTypes.any,
-  text: PropTypes.string
-};
-Item.defaultProps = {
-  onClick: () => {
-  },
-  checked: false,
-  text: ""
 }
