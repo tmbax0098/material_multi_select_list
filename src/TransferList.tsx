@@ -1,49 +1,67 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import * as PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Collapse,
-  List,
-  Menu,
-  TextField,
-  Typography
-} from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {Collapse, List, Menu, TextField} from "@material-ui/core";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 import TransferListHeader from "./TransferListHeader";
-import { Item } from "./Item";
-import { TransferMenuItem } from "./TransferMenuItem";
+import {Item} from "./Item";
+import {TransferMenuItem} from "./TransferMenuItem";
+import clsx from "clsx";
+// import * as clsx from "clsx"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    body: {
-      padding: 0,
-      margin: 0,
-    },
-    footer: {
-      padding: 0,
-      margin: 0,
-      backgroundColor: theme.palette.action.hover,
-      borderColor: theme.palette.divider
-    },
-    header: {
-      padding: 0,
-      margin: 0,
-      backgroundColor: theme.palette.action.hover
-    },
-    boxSearch: {
-      padding: 0,
-      margin: 0,
-      backgroundColor: theme.palette.action.hover,
-      borderBottomColor: theme.palette.divider
-    },
-    buttonText: {
-      textTransform: "none"
-    }
-  }),
-);
+type StylesProps = {
+  borderWidth: number,
+  pageSize: number
+};
+
+const useStyles = makeStyles<Theme, StylesProps>((theme: Theme) => ({
+  root: {
+    borderWidth: props => props.borderWidth,
+    borderStyle: "solid",
+    borderColor: theme.palette.divider
+  },
+  body: {
+    minHeight: props => props.pageSize * 40,
+    padding: 0,
+    margin: 0,
+  },
+  footer: {
+    padding: 0,
+    margin: 0,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.palette.action.hover,
+    borderTopColor: theme.palette.divider,
+    borderTopWidth: props => props.borderWidth,
+    borderTopStyle: "solid",
+  },
+  header: {
+    padding: 0,
+    margin: 0,
+    backgroundColor: theme.palette.action.hover
+  },
+  boxSearch: {
+    padding: 0,
+    margin: 0,
+    backgroundColor: theme.palette.action.hover,
+    borderBottomColor: theme.palette.divider
+  },
+  searchBorder: {
+    borderWidth: props => props.borderWidth,
+    borderStyle: "solid",
+    borderColor: theme.palette.divider
+  },
+  button: {
+    ...theme.typography.caption,
+    color: theme.palette.text.primary,
+    textTransform: "none",
+    outline: "none",
+    border: "none",
+    backgroundColor: "transparent"
+  },
+  menu: {marginTop: 4},
+}));
 
 export interface IItem {
   text: string,
@@ -109,7 +127,7 @@ export type TransferListProps = {
 
 export default function TransferList(props: TransferListProps) {
 
-  const classes = useStyles();
+  const classes = useStyles({borderWidth: props.borderWidth, pageSize: props.pageSize});
 
   const [state, setState] = useState({
     page: 0,
@@ -121,19 +139,19 @@ export default function TransferList(props: TransferListProps) {
     anchor: null
   });
 
-  const toggleActiveSearch = () => setState({ ...state, activeSearch: !state.activeSearch });
+  const toggleActiveSearch = () => setState({...state, activeSearch: !state.activeSearch});
 
   // @ts-ignore
-  const onChangeText = e => setState({ ...state, search: e.target.value , page : 0 });
-  const setMode = (newMode: EnumMode) => setState({ ...state, mode: newMode, page: 0, anchor: null });
+  const onChangeText = e => setState({...state, search: e.target.value, page: 0});
+  const setMode = (newMode: EnumMode) => setState({...state, mode: newMode, page: 0, anchor: null});
   const nextPage = () => {
     if (state.page + 1 < getFilter(state.list, state.selectedList, state.mode, props.pageSize)) {
-      setState({ ...state, page: state.page + 1 });
+      setState({...state, page: state.page + 1});
     }
   }
   const prevPage = () => {
     if (state.page > 0) {
-      setState({ ...state, page: state.page - 1 });
+      setState({...state, page: state.page - 1});
     }
   }
   const onClick = (item: IItem) => {
@@ -145,24 +163,25 @@ export default function TransferList(props: TransferListProps) {
         state.selectedList.push(item.value);
       }
     }
-    setState({ ...state });
+    setState({...state});
   }
   const cleanAll = () => {
     if (props.readyOnly) return;
     state.page = 0;
     state.mode = EnumMode.onlyNotSelected;
     state.selectedList = [];
-    setState({ ...state });
+    setState({...state});
   }
   const selectAll = () => {
     if (props.readyOnly) return;
     state.selectedList = state.list.map(item => item.value);
     state.page = 0;
     state.mode = EnumMode.onlySelected;
-    setState({ ...state });
+    setState({...state});
   }
+  const closeMenu = () => setState({...state, anchor: null});
   // @ts-ignore
-  const toggleMenu = e => setState({ ...state, anchor: e.target })
+  const toggleMenu = e => setState({...state, anchor: e.target})
 
   useEffect(() => {
     if (typeof props.onChange === "function" && !props.readyOnly && JSON.stringify(state.selectedList) !== JSON.stringify(props.selectedList)) {
@@ -171,9 +190,9 @@ export default function TransferList(props: TransferListProps) {
   }, [props, state]);
 
   return (
-    <Box border={props.borderWidth} borderColor="divider">
+    <div className={classes.root}>
       <Menu
-        style={{ marginTop: 4 }}
+        className={classes.menu}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -184,24 +203,24 @@ export default function TransferList(props: TransferListProps) {
         }}
         anchorEl={state.anchor}
         open={Boolean(state.anchor)}
-        onClose={() => setState({ ...state, anchor: null })}>
+        onClose={closeMenu}>
 
         <TransferMenuItem
           text={props.menuShowAllText}
           selected={state.mode === EnumMode.all}
-          onClick={() => setMode(EnumMode.all)} />
+          onClick={() => setMode(EnumMode.all)}/>
         <TransferMenuItem
           text={props.menuShowSelectedText}
           selected={state.mode === EnumMode.onlySelected}
-          onClick={() => setMode(EnumMode.onlySelected)} />
+          onClick={() => setMode(EnumMode.onlySelected)}/>
         <TransferMenuItem
           text={props.menuShowUnselectedText}
           selected={state.mode === EnumMode.onlyNotSelected}
-          onClick={() => setMode(EnumMode.onlyNotSelected)} />
+          onClick={() => setMode(EnumMode.onlyNotSelected)}/>
 
       </Menu>
 
-      <Box className={classes.header}>
+      <div className={classes.header}>
         <TransferListHeader
           menuIcon={props.menuIcon}
           searchIcon={props.searchIcon}
@@ -211,10 +230,8 @@ export default function TransferList(props: TransferListProps) {
           toggleActive={toggleActiveSearch}
           toggleMenu={toggleMenu}
         />
-      </Box>
-      <Box
-        borderBottom={state.activeSearch ? 0 : props.borderWidth}
-        className={classes.boxSearch}>
+      </div>
+      <div className={clsx(classes.boxSearch, {[classes.searchBorder]: state.activeSearch})}>
         <Collapse in={state.activeSearch}>
           <TextField
             fullWidth
@@ -225,57 +242,40 @@ export default function TransferList(props: TransferListProps) {
             onChange={onChangeText}
           />
         </Collapse>
-      </Box>
+      </div>
 
-      <Box className={classes.body} style={{ minHeight: props.pageSize * 40 }}>
+      <div className={classes.body}>
         <List>
           {
             getPage(state.list, state.selectedList, state.mode, state.page, props.pageSize, state.search).map((item, index) => (
               <Item
-                key={"item_index_" + index}
+                key={"ii-" + index}
                 text={item.text}
                 onClick={() => onClick(item)}
-                checked={state.selectedList.indexOf(item.value) !== -1} />
+                checked={state.selectedList.indexOf(item.value) !== -1}/>
             ))
           }
         </List>
-      </Box>
+      </div>
 
-      <Box className={classes.footer} borderTop={props.borderWidth}>
-        <ButtonGroup variant={"text"} size={"small"} color={"default"}>
-          <Button onClick={prevPage}>
-            {props.leftIcon}
-          </Button>
-          <Button disabled>
-            <Typography
-              className={classes.buttonText}
-              variant={"caption"}>
-              {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, props.pageSize, state.search)}
-            </Typography>
-          </Button>
-          <Button onClick={nextPage}>
-            {props.rightIcon}
-          </Button>
-
-          <Button onClick={cleanAll}>
-            <Typography
-              className={classes.buttonText}
-              variant={"caption"}>
-              {props.buttonCleanAllText}
-            </Typography>
-          </Button>
-
-          <Button
-            disabled={props.maximumSelectableItem > 0}
-            onClick={selectAll}>
-            <Typography className={classes.buttonText} variant={"caption"}>
-              {props.maximumSelectableItem < 0 ? props.buttonSelectAllText : props.maximumSelectableItemText + props.maximumSelectableItem}
-            </Typography>
-          </Button>
-
-        </ButtonGroup>
-      </Box>
-    </Box>
+      <div className={classes.footer}>
+        <button onClick={prevPage} className={classes.button}>
+          {props.leftIcon}
+        </button>
+        <span className={classes.button}>
+          {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, props.pageSize, state.search)}
+        </span>
+        <button onClick={nextPage} className={classes.button}>
+          {props.rightIcon}
+        </button>
+        <button onClick={cleanAll} className={classes.button}>
+          {props.buttonCleanAllText}
+        </button>
+        <button disabled={props.maximumSelectableItem > 0} onClick={selectAll} className={classes.button}>
+          {props.maximumSelectableItem < 0 ? props.buttonSelectAllText : props.maximumSelectableItemText + props.maximumSelectableItem}
+        </button>
+      </div>
+    </div>
   );
 }
 

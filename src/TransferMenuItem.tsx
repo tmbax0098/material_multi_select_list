@@ -1,6 +1,11 @@
 import * as React from "react";
-import { MenuItem, Typography } from "@material-ui/core";
+import {MenuItem} from "@material-ui/core";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme: Theme) => ({
+  root: theme.typography.caption
+
+}));
 
 export type TransferMenuItemProps = {
   selected: boolean,
@@ -9,9 +14,6 @@ export type TransferMenuItemProps = {
 };
 
 export function TransferMenuItem(props: TransferMenuItemProps) {
-  return (<MenuItem selected={props.selected} onClick={props.onClick}>
-    <Typography variant={"caption"}>
-      {props.text}
-    </Typography>
-  </MenuItem>);
+  const classes = useStyles();
+  return (<MenuItem selected={props.selected} onClick={props.onClick} className={classes.root}>{props.text}</MenuItem>);
 }

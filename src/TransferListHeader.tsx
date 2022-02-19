@@ -1,6 +1,39 @@
-import { Box, Chip, IconButton, Typography } from "@material-ui/core";
+import {Chip} from "@material-ui/core";
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import {makeStyles, Theme} from "@material-ui/core/styles";
+import clsx from "clsx";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    padding: theme.spacing(0, 1)
+  },
+  title: {
+    padding: 0,
+    margin: 0,
+    ...theme.typography.body1,
+    flexGrow: 1,
+  },
+  active: {
+    color: theme.palette.primary.main
+  },
+  button: {
+    width: 40,
+    height: 40,
+    padding: 0,
+    margin: 0,
+    outline: "none",
+    border: "none",
+    backgroundColor: "transparent",
+    color: "inherit",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+}));
 
 export type TransferListHeaderProps = {
   title: string,
@@ -13,73 +46,30 @@ export type TransferListHeaderProps = {
 };
 
 const TransferListHeader: React.FC<TransferListHeaderProps> = ({
-  title,
-  count,
-  active,
-  menuIcon,
-  searchIcon,
-  toggleActive,
-  toggleMenu
-}) => {
+                                                                 title = "",
+                                                                 count = 0,
+                                                                 active = false,
+                                                                 menuIcon = "menu",
+                                                                 searchIcon = "search",
+                                                                 toggleActive = () => null,
+                                                                 toggleMenu = () => null
+                                                               }) => {
+
+  const classes = useStyles();
 
   return (
-    <Box
-      display={"flex"}
-      flexDirection={"row"}
-      alignItems={"center"}
-      pl={1}
-      pr={1}>
-      <Box flexGrow={1}>
-        <Typography variant={'body1'} align={"left"}> {title} </Typography>
-      </Box>
-      <Box>
-        <Chip color="primary" label={count} />
-      </Box>
-      <Box>
-        <IconButton
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-          color={active ? "primary" : "inherit"}
-          size={"medium"}
-          onClick={toggleActive}>
-          {searchIcon}
-        </IconButton>
-      </Box>
-      <Box>
-        <IconButton
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-          color="inherit"
-          size={"medium"}
-          onClick={toggleMenu}>
-          {menuIcon}
-        </IconButton>
-      </Box>
-    </Box>
+    <div className={classes.root}>
+      <h6 className={classes.title}>{title}</h6>
+      <Chip color="primary" label={count}/>
+      <button className={clsx(classes.button, {[classes.active]: active})} onClick={toggleActive}>
+        {searchIcon}
+      </button>
+      <button className={classes.button} onClick={toggleMenu}>
+        {menuIcon}
+      </button>
+    </div>
   )
 
 }
-
-TransferListHeader.propTypes = {
-  title: PropTypes.any,
-  count: PropTypes.any,
-  searchIcon: PropTypes.any,
-  menuIcon: PropTypes.any,
-  active: PropTypes.any,
-  toggleActive: PropTypes.func,
-  toggleMenu: PropTypes.func
-};
-TransferListHeader.defaultProps = {
-  title: "",
-  count: 0,
-  searchIcon: "search",
-  menuIcon: "menu",
-  active: false,
-  toggleActive: () => null,
-  toggleMenu: () => null
-
-};
 
 export default TransferListHeader;
