@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: "transparent",
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    justifyContent: "flex-start",
+    alignItems: "center",
+    textAlign: "start",
   },
   checkbox: {padding: 3}
 }));
