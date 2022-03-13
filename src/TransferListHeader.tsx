@@ -1,4 +1,3 @@
-import {Chip} from "@material-ui/core";
 import * as React from "react";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -19,6 +18,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   active: {
     color: theme.palette.primary.main
+  },
+  chip : {
+    minWidth: 40,
+    height: 40,
+    padding: 0,
+    margin: 0,
   },
   button: {
     width: 40,
@@ -60,7 +65,7 @@ export default function TransferListHeader({
   return (
     <div className={classes.root}>
       <h6 className={classes.title}>{title}</h6>
-      <Chip color="primary" label={count}/>
+      <p className={classes.chip} >{count}</p>
       <button className={clsx(classes.button, {[classes.active]: active})} onClick={toggleActive}>
         {searchIcon}
       </button>
