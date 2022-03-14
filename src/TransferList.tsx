@@ -56,7 +56,9 @@ const useStyles = makeStyles<Theme, StylesProps>((theme: Theme) => ({
     textTransform: "none",
     outline: "none",
     border: "none",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    minWidth: 30,
+    height: 30
   },
   menu: {marginTop: 4},
 }));

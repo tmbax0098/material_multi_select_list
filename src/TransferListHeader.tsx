@@ -1,6 +1,7 @@
 import * as React from "react";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import clsx from "clsx";
+import {Chip} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -20,14 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.primary.main
   },
   chip: {
-    minWidth: 40,
-    height: 40,
-    padding: theme.spacing(0, 1),
-    margin: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background : theme.palette.primary.main
+    margin: 1,
   },
   button: {
     width: 40,
@@ -69,7 +63,7 @@ export default function TransferListHeader({
   return (
     <div className={classes.root}>
       <h6 className={classes.title}>{title}</h6>
-      <p className={classes.chip}>{count}</p>
+      <Chip color="primary" size="small" label={count} className={classes.chip}/>
       <button type="button" className={clsx(classes.button, {[classes.active]: active})} onClick={toggleActive}>
         {searchIcon}
       </button>
