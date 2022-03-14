@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Collapse, Menu, TextField} from "@material-ui/core";
+import {Collapse, List, Menu, TextField} from "@material-ui/core";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import TransferListHeader from "./TransferListHeader";
 import {Item} from "./Item";
@@ -260,7 +260,7 @@ export default function TransferList({
         </Collapse>
       </div>
 
-      <div className={classes.body}>
+      <List dense className={classes.body}>
         {
           getPage(state.list, state.selectedList, state.mode, state.page, pageSize, state.search).map((item, index) => (
             <Item
@@ -271,7 +271,7 @@ export default function TransferList({
               checked={state.selectedList.indexOf(item.value) !== -1}/>
           ))
         }
-      </div>
+      </List>
 
       <div className={classes.footer}>
         <button type="button" onClick={prevPage} className={classes.button}>
