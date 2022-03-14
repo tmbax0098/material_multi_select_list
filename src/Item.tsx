@@ -4,7 +4,7 @@ import {makeStyles, Theme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   text: {
-    ...theme.typography.body1,
+    ...theme.typography.caption,
     padding: 0,
     margin: 0,
     textAlign: "start",
@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   button: {
     height: 40,
-    width: '100%',
     outline: "none",
     border: "none",
     background: "transparent",
@@ -39,14 +38,15 @@ export function Item({onClick = () => null, text = "", checked = false, showChec
   return (
     <button type="button" onClick={onClick} className={classes.button}>
       {showCheck &&
-      <Checkbox
-        className={classes.checkbox}
-        size={"small"}
-        edge="start"
-        checked={checked}
-        tabIndex={-1}
-        disableRipple
-      />}
+        <Checkbox
+          className={classes.checkbox}
+          size={"small"}
+          edge="start"
+          color={"primary"}
+          checked={checked}
+          tabIndex={-1}
+          disableRipple
+        />}
       <p className={classes.text}>{text}</p>
     </button>
   )

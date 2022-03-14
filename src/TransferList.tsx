@@ -110,7 +110,7 @@ export type TransferListProps = {
   menuShowAllText?: string,
   menuShowSelectedText?: string,
   menuShowUnselectedText?: string,
-  onChange?: (arr : number[])=>any,
+  onChange?: (arr: number[]) => any,
   sourceList: IItem[],
   selectedList: number[],
   title?: string,
@@ -274,19 +274,19 @@ export default function TransferList({
       </div>
 
       <div className={classes.footer}>
-        <button onClick={prevPage} className={classes.button}>
+        <button type="button" onClick={prevPage} className={classes.button}>
           {leftIcon}
         </button>
         <span className={classes.button}>
           {state.page + 1}/ {getFilter(state.list, state.selectedList, state.mode, pageSize, state.search)}
         </span>
-        <button onClick={nextPage} className={classes.button}>
+        <button type="button" onClick={nextPage} className={classes.button}>
           {rightIcon}
         </button>
-        <button onClick={cleanAll} className={classes.button}>
+        <button type="button" onClick={cleanAll} className={classes.button}>
           {buttonCleanAllText}
         </button>
-        <button disabled={maximumSelectableItem > 0} onClick={selectAll} className={classes.button}>
+        <button type="button" disabled={maximumSelectableItem > 0} onClick={selectAll} className={classes.button}>
           {maximumSelectableItem < 0 ? buttonSelectAllText : maximumSelectableItemText + maximumSelectableItem}
         </button>
       </div>

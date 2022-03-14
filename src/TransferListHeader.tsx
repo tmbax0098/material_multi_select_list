@@ -19,11 +19,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   active: {
     color: theme.palette.primary.main
   },
-  chip : {
+  chip: {
     minWidth: 40,
     height: 40,
-    padding: 0,
+    padding: theme.spacing(0, 1),
     margin: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background : theme.palette.primary.main
   },
   button: {
     width: 40,
@@ -65,11 +69,11 @@ export default function TransferListHeader({
   return (
     <div className={classes.root}>
       <h6 className={classes.title}>{title}</h6>
-      <p className={classes.chip} >{count}</p>
-      <button className={clsx(classes.button, {[classes.active]: active})} onClick={toggleActive}>
+      <p className={classes.chip}>{count}</p>
+      <button type="button" className={clsx(classes.button, {[classes.active]: active})} onClick={toggleActive}>
         {searchIcon}
       </button>
-      <button className={classes.button} onClick={toggleMenu}>
+      <button type="button" className={classes.button} onClick={toggleMenu}>
         {menuIcon}
       </button>
     </div>
