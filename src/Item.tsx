@@ -10,6 +10,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "start",
     // flexGrow: 1,
   },
+  listItemIcon: {
+    minWidth: 0,
+    margin: 0,
+    paddingRight: 5,
+    paddingLeft: 5
+  },
   // button: {
   //   height: 40,
   //   outline: "none",
@@ -21,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   //   alignItems: "center",
   //   textAlign: "start",
   // },
-  checkbox: {padding: 3 , margin : 0}
+  checkbox: {padding: 0, margin: 0}
 }));
 
 export type ItemProps = {
@@ -36,8 +42,8 @@ export function Item({onClick = () => null, text = "", checked = false, showChec
   const classes = useStyles();
 
   return (
-    <ListItem  role="listitem" button onClick={onClick}>
-      {showCheck && <ListItemIcon>
+    <ListItem role="listitem" button onClick={onClick}>
+      {showCheck && <ListItemIcon className={classes.listItemIcon}>
         <Checkbox
           className={classes.checkbox}
           size={"small"}
@@ -48,7 +54,7 @@ export function Item({onClick = () => null, text = "", checked = false, showChec
           disableRipple
         />
       </ListItemIcon>}
-      <ListItemText primary={text} primaryTypographyProps={{className:classes.text}} />
+      <ListItemText primary={text} primaryTypographyProps={{className: classes.text}}/>
     </ListItem>
 
     // <button type="button" onClick={onClick} className={classes.button}>

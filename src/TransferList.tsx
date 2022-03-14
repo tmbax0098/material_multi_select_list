@@ -58,7 +58,12 @@ const useStyles = makeStyles<Theme, StylesProps>((theme: Theme) => ({
     border: "none",
     backgroundColor: "transparent",
     minWidth: 30,
-    height: 30
+    paddingLeft: 5,
+    paddingRight: 5,
+    height: 30,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   menu: {marginTop: 4},
 }));
