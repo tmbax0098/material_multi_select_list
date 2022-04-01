@@ -214,6 +214,10 @@ export default function TransferList({
     }
   }, [selectedList, state, readyOnly, onChange]);
 
+  useEffect(() => {
+    setState({...state, list: sourceList});
+  }, [sourceList])
+
   return (
     <div className={classes.root}>
       <Menu
